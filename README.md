@@ -16,9 +16,10 @@ ES6. Use babel if you would like support prior to ES6.
 Registering a new route:
 
 ```javascript
-// This route will mach a url like: /stocks/AAPL
+// This route will match a url like: /stocks/AAPL
 FoxyRouter.add(`/stocks/:stock_symbol`, (parameters) => {
-	document.getElementById(`page-container`).innerHTML = `You're viewing data for stock symbol: ${parameters.stock_symbol}`;
+	let text = `You're viewing data for stock symbol: ${parameters.stock_symbol}`;
+	document.getElementById(`page-container`).innerHTML = text;
 })
 ```
 
@@ -26,7 +27,7 @@ FoxyRouter.add(`/stocks/:stock_symbol`, (parameters) => {
 
 Paths can be any string along with regular expression patterns.
 
-Route to the website index
+Route to the website index:
 
 ```javascript
 FoxyRouter.add(`/`, () => {
@@ -34,67 +35,63 @@ FoxyRouter.add(`/`, () => {
 });
 ```
 
-Route to the about page
+Route to the about page:
 
 ```javascript
-FoxyRouter.add(`/about`, () => {
+FoxyRouter.add(`/currency`, () => {
 	document.getElementById(`page-container`).innerHTML = `This is the about page`;
 });
 ```
 
-## Regular Expression Route Paths
-
-
 ## Route Parameters
 
-Routes can also have dynamic parameters. These follow the same rules as express routes.
+Routes can also have dynamic parameters prefixed with a semicolon(:).
 
 ```javascript
-FoxyRouter.add(`/triathlon/:race_name`, (parameters) => {
-	// :race_name is the triathlon specified
-	// e.g. /triathlon/Dunedin
+FoxyRouter.add(`/race_list/:race_id`, (parameters) => {
+	// :race_id is the triathlon specified
+	// e.g. /race_list/Dunedin
 
-	document.getElementById(`page-container`).innerHTML = `You are viewing the ${parameters.race_name} triathlon`;
+	let text = `You are viewing the ${parameters.race_id} triathlon`;
+	document.getElementById(`page-container`).innerHTML = text;
 });
 ```
 
 ```javascript
-FoxyRouter.add(`triathlon/:race_name/:athlete, () => {
-	// :race_name is the triathlon specified
-	// e.g. /triathlon/Dunedin
-	// :athlete is that persons data for the triathlon
-	// e.g. /triathlon/Dunendin/Will_Brock
+FoxyRouter.add(`race_list/:race_id/:athlete`, (parameters) => {
+	// e.g. /race_list/Dunendin/Will_Brock
 
-	document.getElementById(`page-container`).innerHTML = `You are viewing the ${parameters.race_name} triathlon for ${parameters.athlete}`;
+	let text = `You are viewing the ${parameters.race_id} triathlon for ${parameters.athlete}`;
+	document.getElementById(`page-container`).innerHTML = text;
 });
 ```
 
 ## Query Parameters
 
-All query parameters are merged into the route parameters argument
+All query parameters are merged into the route parameters argument of the callback.
 
 ```javascript
-	// e.g /stocks/AAPL?timeframe=weekly
+	// e.g /stocks/AAPL?timeframe=weekly&chart_type=candlestick
 	FoxyRouter.add('/stocks/:stock_symbol', (parameters) => {
-		// parameters.stock_symbol = AAPL
-		// parameters.timeframe = weekly
+		let text = `Viewing ${parameters.stock_symbol}, timeframe: ${parameters.timeframe}, chart type: ${parameters.chart_type}.`;
+		document.getElementById(`page-container`).innerHTML = text;
 	});
 ```
 
 
 ## Route chaining
 
-Adding new routes can be chained
+Adding new routes can be chained.
 
 ```javascript
 FoxyRouter
 	.add(`/`, (parameters) => {
 
 	})
-	.add(`/about`, (parameters) => {
+	.add(`/stocks`, (parameters) => {
 
 	})
-	.add(`/about_us`, (parameters) => {
+	.add(`/bonds`, (parameters) => {
 
 	});
 ```
