@@ -1,3 +1,12 @@
+/*!
+ * FoxyRouter
+ * Lightweight javascript routing library for single page applications
+ * https://github.com/WillBrock/FoxyRouter
+ *
+ * Copyright 2016 Will Brock
+ * Released under the GPL license
+ * http://www.gnu.org/copyleft/gpl.html
+ */
 ((context) => {
 	`use strict`;
 

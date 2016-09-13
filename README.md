@@ -39,7 +39,7 @@ Route to the about page:
 
 ```javascript
 FoxyRouter.add(`/currency`, () => {
-	document.getElementById(`page-container`).innerHTML = `This is the about page`;
+	document.getElementById(`page-container`).innerHTML = `This is the currency page`;
 });
 ```
 
