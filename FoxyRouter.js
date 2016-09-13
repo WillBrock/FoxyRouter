@@ -17,11 +17,7 @@
 		}
 
 		// Add new routes
-		add(route) {
-			// Get any callbacks
-			let callbacks = Array.from(arguments);
-			callbacks.shift();
-
+		add(route, ...callbacks) {
 			this.routes.push({
 				path      : route,
 				callbacks : callbacks || null
