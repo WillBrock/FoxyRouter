@@ -18,7 +18,6 @@ Registering a new route:
 ```javascript
 // This route will mach a url like: /stocks/AAPL
 FoxyRouter.add(`/stocks/:stock_symbol`, (parameters) => {
-	// This matches a link to: /stocks/AAPL
 	document.getElementById(`page-container`).innerHTML = `You're viewing data for stock symbol: ${parameters.stock_symbol}`;
 })
 ```
