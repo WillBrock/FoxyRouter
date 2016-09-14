@@ -72,14 +72,16 @@
 		}
 	}
 
+	let Router = new FoxyRouter();
+
 	if(typeof define === `function` && define.amd) {
-		define(new FoxyRouter());
+		define(Router);
 	}
 	else if(typeof module != `undefined` && module.exports) {
-		module.exports = new FoxyRouter();
+		module.exports = Router;
 	}
 	else {
-		context.FoxyRouter = new FoxyRouter();
+		context.FoxyRouter = Router;
 	}
 
 	// Handle history
@@ -131,7 +133,7 @@
 		window.history.pushState({}, ``, `${route}${search}`);
 
 		// Render the new route
-		return Routes.render(route, search);
+		return Router.render(route, search);
 	}
 
 })(this);
