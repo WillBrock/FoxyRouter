@@ -20,7 +20,7 @@
 		add(route, ...callbacks) {
 			this.routes.push({
 				path      : route,
-				callbacks : callbacks || null
+				callbacks : callbacks || []
 			});
 
 			return this;
