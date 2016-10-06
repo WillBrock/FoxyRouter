@@ -50,8 +50,15 @@
 				}
 
 				// Get any keys and values that are in the route, e.g :id, :user_id, etc.
+				let active_offset = 0;
 				path.replace(route_regex, (match, offset) => {
-					parameters[match.substr(1)] = active_route.substr(offset - 1).match(replace_regex)[0];
+					let index     = match.substr(1);
+					active_offset = active_offset === 0 ? offset : active_offset;
+
+					let route_match   = active_route.substr(active_offset - 1).match(replace_regex)[0];
+					parameters[index] = route_match;
+
+					active_offset = active_offset === 0 ? offset + route_match.length : active_offset + route_match.length + 2;
 				});
 
 				// Check for any query parameters
