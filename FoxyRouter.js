@@ -35,31 +35,38 @@
 			let route_regex   = /:[^\s(/|\-|\.)]+/g;
 			let replace_regex = `[\\w-]+`;
 
+			if(active_route.lastIndexOf(`/`) === active_route.length -1) {
+				active_route = active_route.slice(0, -1);
+			}
+
 			// Find a matching route
 			for(let route of this.routes) {
 				let path      = route.path;
 				let callbacks = route.callbacks;
 
 				// Replace any parameters with regex to match the path
-				let path_test = path.replace(route_regex, replace_regex);
-				let match     = active_route.match(path_test);
+				let path_test     = path.replace(route_regex, replace_regex);
+				let absolute_path = path.substring(0, active_route.length) === active_route;
+				let match         = active_route.match(path_test) || absolute_path;
 
 				// If there is no match for the current route
 				if(!match) {
 					continue;
 				}
 
-				// Get any keys and values that are in the route, e.g :id, :user_id, etc.
-				let active_offset = 0;
-				path.replace(route_regex, (match, offset) => {
-					let index     = match.substr(1);
-					active_offset = active_offset === 0 ? offset : active_offset;
+				if(!absolute_path) {
+					// Get any keys and values that are in the route, e.g :id, :user_id, etc.
+					let active_offset = 0;
+					path.replace(route_regex, (match, offset) => {
+						let index     = match.substr(1);
+						active_offset = active_offset === 0 ? offset : active_offset;
 
-					let route_match   = active_route.substr(active_offset - 1).match(replace_regex)[0];
-					parameters[index] = route_match;
+						let route_match   = active_route.substr(active_offset - 1).match(replace_regex)[0];
+						parameters[index] = route_match;
 
-					active_offset = active_offset === 0 ? offset + route_match.length : active_offset + route_match.length + 2;
-				});
+						active_offset = active_offset === 0 ? offset + route_match.length : active_offset + route_match.length + 2;
+					});
+				}
 
 				// Check for any query parameters
 				search.replace(/([^?=&]+)(=([^&]*))?/g, (match, key, foo, value) => {
@@ -81,11 +88,11 @@
 
 	let Router = new FoxyRouter();
 
-	if(typeof define === `function` && define.amd) {
-		define(Router);
-	}
-	else if(typeof module != `undefined` && module.exports) {
+	if(typeof module != `undefined` && module.exports) {
 		module.exports = Router;
+	}
+	else if(typeof define === `function` && define.amd) {
+		define(Router);
 	}
 	else {
 		context.FoxyRouter = Router;
