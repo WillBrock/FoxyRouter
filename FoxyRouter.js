@@ -1,4 +1,4 @@
-/*!
+/*
  * FoxyRouter
  * Lightweight javascript routing library for single page applications
  * https://github.com/WillBrock/FoxyRouter
